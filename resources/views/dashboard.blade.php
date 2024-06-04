@@ -60,7 +60,7 @@
                 <li><a href="{{route('user.list')}}">User</a></li>
                 <li><a href="{{route('eleve.accueil')}}">Gestion des eleves</a></li>
                 <li><a href="{{route('enseignant.accueil')}}">Gestion des Enseignants</a></li>
-                <li><a href="">Check disponibility</a></li>
+                <li><a href="{{route('matiere.accueil')}}">Gestion des Matieres</a></li>
             </ul>
         </nav>
         </section>

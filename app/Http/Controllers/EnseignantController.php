@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EnseignantRequest;
+use App\Models\Classe;
 use App\Models\Enseignant;
+use App\Models\EnseignantClasse;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class EnseignantController extends Controller
@@ -95,6 +98,28 @@ class EnseignantController extends Controller
         return view('enseignant.enseignant-search',[
             'table'=>$table,
         ]);
+    }
+
+    public function validateClasse(){
+        $classes = Classe::get();
+        $user = Auth::user();
+        $enseignant = Enseignant::where('user_id','=',$user->id)->first();
+        if($user == null){
+            return 'pas connecter';
+        }
+        if($enseignant == null){
+            return "vous n'etez pas enseignant";
+        }
+        $ss = EnseignantClasse::where('enseignant_id','=',$enseignant->id)->get();
+        //dd($ss->contains('id_medicament',1));
+        return view('enseignant.validate-classe',[
+            'classes'=>$classes,
+            'check'=>$ss,
+        ]);
+    }
+
+    public function validate_classe(){
+
     }
   
 }

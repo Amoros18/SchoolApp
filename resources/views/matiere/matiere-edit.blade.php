@@ -3,5 +3,5 @@
 @section('title', 'Modification')
 
 @section('content')
-    @include('medicament.medicament')
+    @include('matiere.matiere')
 @endsection
