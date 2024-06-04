@@ -1,0 +1,56 @@
+
+/* Theme Colors */
+:root {
+  --secondary-color: #04580b;
+  --primary-color: #18e04a;
+}
+
+
+body{
+     margin: 2px;
+     padding: 2px;
+     font-family:comic sans MS;
+     color: rgb(0, 0, 0);
+}   
+
+header {
+  background-color: var(--primary-color);
+  margin-bottom: 2px;
+}
+
+.box{
+  border: 1px solid var(--primary-color);
+}
+
+.box-header{
+  color: #fff;
+  background: var(--primary-color);
+  background-color: var(--primary-color);
+  border-bottom: 1px solid #f4f4f4;
+  display: block;
+  padding: 10px;
+  position: relative;
+}
+
+.box-body{
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 10px;
+}
+
+h3{
+  margin: 0px
+}
+section{
+  margin: 10px;
+}
+
+svg{
+  display: none;
+}
+
+.bouton{
+  margin: 10px;
+}
