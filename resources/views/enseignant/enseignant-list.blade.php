@@ -24,7 +24,9 @@
                 <thead>
                     <th>Id</th>
                     <th>Nom</th>
-                    <th>Classe</th>
+                    <th>Prenom</th>
+                    <th>Matricule</th>
+                    <th>Statut</th>
                     
                     <th>Modifier</th>
                     <th>Consulter</th>
@@ -34,14 +36,16 @@
                     @foreach ($Listes as $Liste )
                         <tr>
                             <td>{{$Liste->id}}</td>
-                            <td>{{$Liste->nom}}</td>
-                            <td>{{$Liste->numero}}</td>
+                            <td>{{$Liste->name}}</td>
+                            <td>{{$Liste->prenom}}</td>
+                            <td>{{$Liste->matricule}}</td>
+                            <td>{{$Liste->statut}}</td>
                             
-                            <td><a  href = "{{route('eleve.update',['table'=>$Liste])}} ">
+                            <td><a  href = "{{route('enseignant.update',['table'=>$Liste])}} ">
                                 <button type="edit">Modifier</button></a></td>
-                            <td><a  href = "{{route('eleve.search',['table'=>$Liste])}} ">
+                            <td><a  href = "{{route('enseignant.search',['table'=>$Liste])}} ">
                                 <button type="edit">Voir</button></a></td>
-                            <td><a  href = "{{route('eleve.delete',['table'=>$Liste])}} ">
+                            <td><a  href = "{{route('enseignant.delete',['table'=>$Liste])}} ">
                                 <button type="edit">Suprimer</button></a></td>
 
                         </tr>

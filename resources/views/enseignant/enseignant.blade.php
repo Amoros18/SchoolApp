@@ -3,15 +3,15 @@
 </div>
 
 <div  class="bobody">
-    <dsexe>
+    <div>
         <div class="card-body">
-            <form action="" method="POST" class="vstack gap 3 text-black">
+            <form action="" method="POST" enctype="multipart/form-data" class="vstack gap 3 text-black">
                 @csrf
 
                 <div class="form-group">
                     <label for="nom" class="control-label">Nom :</label>
-                    <input type="text" name="nom" class="form-control " value="{{old('nom',$table->nom)}}">
-                    @error('nom')
+                    <input type="text" name="name" class="form-control " value="{{old('name',$table->name)}}">
+                    @error('name')
                         <span class="text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </span> 
@@ -66,24 +66,16 @@
                     </span>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <label for="lieu_naissance" class="control-label">Lieu Naissance:</label>
-                    <input type="text" name="lieu_naissance" class="form-control " value="{{old('lieu_naissance',$table->lieu_naissance)}}">
-                    @error('lieu_naissance')
-                        <span class="text-danger" role="alert">
-                            <strong>{{$message}}</strong>
-                        </span>                      
-                    @enderror
-                </div>
+            
                 <div class="form-group" >
-                    <label for="statut_familliale" class="control-label">Statut Familliale : </label>
-                    <select name="statut_familliale" class="form-control ">
-                        <option>{{old('statut_familliale',$table->statut_familliale)}}</option>
-                        <option>R.A.S</option>
-                        <option>Opheline</option>
-                        <option>Ophelin</option>
+                    <label for="situation" class="control-label">situation : </label>
+                    <select name="situation" class="form-control ">
+                        <option>{{old('situation',$table->situation)}}</option>
+                        <option>Vacataire</option>
+                        <option>PLEG</option>
+                        <option>PSEG</option>
                     </select>                    
-                    @error('statut_familliale')
+                    @error('situation')
                         <span class="text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </span>  
@@ -91,34 +83,40 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="statut_social" class="control-label">Statut Social : </label>
-                    <select name="statut_social" class="form-control ">
-                        <option>{{old('statut_social',$table->statut_social)}}</option>
-                        <option>Eleve Apte</option>
-                        <option>Eleve Inapte</option>
+                    <label for="statut" class="control-label">Statut : </label>
+                    <select name="statut" class="form-control ">
+                        <option>{{old('statut',$table->statut)}}</option>
+                        <option>Marie</option>
+                        <option>Celibataire</option>
                     </select>                    
-                    @error('statut_social')
+                    @error('statut')
                         <span class="text-danger" role="alert">
                             <strong>{{$message}}</strong>
                         </span>  
                     @enderror
-                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="classe" class="control-label">Classe :</label>
-                    <select name="classe" class="form-control">
-                        <option value="{{$classe}}">{{$classe}}</option>
-                        <option value=""></option>
-                        @foreach ($classes as $cate )
-                            <option value="{{$cate->id}}">{{$cate->label}}</option>
-                        @endforeach
-                    </select>
-                    @error('classe')
+                    <label for="email" class="control-label">Email:</label>
+                    <input type="email" name="email" class="form-control " value="{{old('email')}}">
+                    @error('email')
                         <span class="text-danger" role="alert">
                             <strong>{{$message}}</strong>
-                        </span>                      
+                        </span> 
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Mot de passe:</label>
+                    <input type="password" name="password" class="form-control " value="{{old('password')}}">
+                    @error('password')
+                        <span class="text-danger" role="alert">
+                            <span class="text-danger" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span> 
+                        </span> 
+                    @enderror
+                </div>
+        
                 <div class="form-group">
                     <label for="photo" class="control-label">Photo :</label>
                     <input type="file" name="photo" class="form-control">

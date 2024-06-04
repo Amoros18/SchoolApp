@@ -53,13 +53,12 @@ class EleveController extends Controller
             'Listes'=>$eleves,
         ])->with('success', "Eleve Enregistrer");
     }
-    public function updateEleve($id)
+    public function updateEleve(Eleve $table)
     {
         $classe = Classe::all();
-        $eleve = Eleve::find($id);
 
         return view('eleve.eleve-edit', [
-            'table'=>$eleve,
+            'table'=>$table,
             'classe'=>'Terminal',
             'classes'=>$classe,
         ]); 

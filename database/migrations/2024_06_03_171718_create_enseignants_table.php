@@ -13,17 +13,21 @@ return new class extends Migration
     {
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('name');
             $table->string('prenom');
             $table->integer('numero');
-            $table->integer('age');
+            $table->string('matricule')->nullable();
+            $table->date('date_naissance');
             $table->string('sexe');
-            $table->string('enseignant');
-            $table->string('situation');
-            $table->string('statut');
+            $table->string('situation')->nullable();  // Vacatatire
+            $table->string('statut')->nullable();  // PLeg
             $table->string('email');
             $table->string('password');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

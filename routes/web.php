@@ -34,7 +34,7 @@ Route::prefix('inscription')->middleware('auth')->group(function(){
         Route::get('/update/{table}',[EleveController::class,'updateEleve'])->name('update');
         Route::post('/update/{table}',[EleveController::class,'update_eleve']);
         Route::get('/delete/{table}',[EleveController::class,'deleteEleve'])->name('delete');
-        Route::get('search/{table}',[EleveController::class,'affiche_eleve'])->name('search') ;
+        Route::get('search/{table}',[EleveController::class,'affiche_eleve'])->name('search');
     });
     Route::prefix('enseignant')->name('enseignant.')->group(function(){
         Route::get('/', [EnseignantController::class,'index'])->name('accueil');

@@ -11,7 +11,7 @@ class EnseignantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class EnseignantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'string|required',
+            'prenom'=>'string',
+            'numero'=>'integer',
+            'matricule'=>'string',
+            'date_naissance'=>'nullable',
+            'sexe'=>'string',
+            'situation'=>'string',
+            'statut'=>'string',
+            'email'=>'nullable',
+            'password'=>'nullable',
+            'photo'=>'nullable',
         ];
     }
 }

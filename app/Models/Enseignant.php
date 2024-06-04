@@ -10,15 +10,17 @@ class Enseignant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nom',
+        'name',
         'prenom',
         'numero',
-        'age',
+        'matricule',
+        'date_naissance',
         'sexe',
         'enseignant',
         'situation',
         'statut',
         'email',
         'password',
+        'photo',
     ];
 }

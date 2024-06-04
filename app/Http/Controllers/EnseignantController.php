@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EnseignantRequest;
 use App\Models\Enseignant;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EnseignantController extends Controller
 {
@@ -24,101 +26,75 @@ class EnseignantController extends Controller
     }
 
     public function create_enseignant(EnseignantRequest $request){
-        
-    }
-  
+        $user = User::create($request->validated());
+        $password = $request->input('password');
+        $user->password = Hash::make($password);
+        $user->role = 'Enseignant';
+        $user->save();
 
-    public function affiche_prof(Request $request)
-    {
-        $affiche_prof = $request->affiche_prof;
-        $enseignant = Enseignant::where(function($query) use ($affiche_prof){
-
-        $query->where('enseignant','like',"%$affiche_prof");
-        })->get();
-        return view('enseignant.professeurs',compact('enseignant','affiche_prof'));
-    }
-
-    public function search_prof(Request $request)
-    {
-        $search_prof = $request->search_prof;
-        $enseignant = Enseignant::where(function($query) use ($search_prof){
-
-        $query->where('nom','like',"%$search_prof");
-        })->get();
-        return view('enseignant.professeurs',compact('enseignant','search_prof'));
-    }
-    
-    
-    public function professeurs_traitement(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required',
-            'prenom' => 'required',
-            'numero' => 'required',
-            'age' => 'required',
-            'sexe' => 'required',
-            'enseignant' => 'required',
-            'situation' => 'required',
-            'statut' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $enseignant = new Enseignant();
-        $enseignant ->nom = $request->nom;
-        $enseignant ->prenom = $request->prenom;
-        $enseignant ->numero = $request->numero;
-        $enseignant ->age = $request->age;
-        $enseignant ->sexe = $request->sexe;
-        $enseignant ->enseignant = $request->enseignant;
-        $enseignant ->situation = $request->situation;
-        $enseignant ->statut = $request->statut;
-        $enseignant ->email = $request->email;
-        $enseignant ->password = $request->password;
+        $enseignant = Enseignant::create($request->validated());
+        $enseignant->user_id = $user->id;
         $enseignant->save();
 
-        return redirect('/enseignant')->with('status','enseignant ajouter avec success'); 
-    }
-
-    public function update_enseignant($id)
-    {
-        $enseignant = Enseignant::find($id);
-
-       return view('enseignant.update', compact('enseignant')); 
-    }
-
-    public function update_prof_traitement(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required',
-            'prenom' => 'required',
-            'numero' => 'required',
-            'age' => 'required',
-            'sexe' => 'required',
-            'enseignant' => 'required',
-            'situation' => 'required',
-            'statut' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $enseignant =Enseignant::find($request->id);
-        $enseignant ->nom = $request->nom;
-        $enseignant ->prenom = $request->prenom;
-        $enseignant ->numero = $request->numero;
-        $enseignant ->age = $request->age;
-        $enseignant ->sexe = $request->sexe;
-        $enseignant ->enseignant = $request->enseignant;
-        $enseignant ->situation = $request->situation;
-        $enseignant ->statut = $request->statut;
-        $enseignant ->email = $request->email;
-        $enseignant ->password = $request->password;
-        $enseignant->update();
-        return redirect('/enseignant')->with('status','professeur a ete modifier avec success'); 
-    }
-
-    public function delete_enseignant($id){
-        $enseignant = Enseignant::find($id);
-        $enseignant->delete();
-        return redirect('/enseignant')->with('status','professeur a ete supprimer avec success');        
+        $photo = $request->file('photo');
+        //dd($photo);
+        if($photo){
+            $filePath = $photo->store('enseignant','public');
+            $name = $_FILES['photo']['name'];
+            $extension = strrchr($name,".");
+            $numero = $enseignant->id;
+            $aleatoire = md5(substr('0123456789',rand(0,5)));
+            $names = "{$numero}-{$aleatoire}{$extension}";
+            rename(storage_path("app/public/{$filePath}") , storage_path("app/public/enseignant/{$names}")) ;
+            $enseignant->photo = $names;
+            $enseignant->save();
         }
 
+        $enseignants = Enseignant::paginate(20);
+        return redirect()->route('enseignant.accueil',[
+            'Listes'=>$enseignants,
+        ])->with('success', "Enseignant Enregistrer");
+    }
+    public function updateEnseignant(Enseignant $table){
+
+        return view('enseignant.enseignant-edit',[
+            'table'=>$table,
+        ]);
+
+    }
+
+    public function update_enseignant(Enseignant $table, EnseignantRequest $request){
+        $table->update($request->validated());
+        $photo = $request->file('photo');
+        //dd($photo);
+        if($photo != null){
+            $filePath = $photo->store('enseignant','public');
+            $name = $_FILES['photo']['name'];
+            $extension = strrchr($name,".");
+            $numero = $table->id;
+            $aleatoire = md5(substr('0123456789',rand(0,5)));
+            $names = "{$numero}-{$aleatoire}{$extension}";
+            rename(storage_path("app/public/{$filePath}") , storage_path("app/public/enseignant/{$names}")) ;
+            $table->photo = $names;
+            $table->save();
+        }
+        return redirect()->route('enseignant.update',[
+            'table'=>$table->id,
+        ])->with('success', "Enseignant Enregistrer");
+    }
+
+    public function deleteEnseignant(Enseignant $table){
+        $table->delete();
+        $enseignants = Enseignant::paginate(20);
+        return redirect()->route('enseignant.accueil',[
+            'Listes'=>$enseignants,
+        ])->with('success', "Enseignant Enregistrer");
+    }
+
+    public function afficheEnseignant(Enseignant $table){
+        return view('enseignant.enseignant-search',[
+            'table'=>$table,
+        ]);
+    }
+  
 }
